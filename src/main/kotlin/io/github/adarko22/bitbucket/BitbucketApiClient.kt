@@ -1,4 +1,4 @@
-package org.example.org.example
+package io.github.adarko22.bitbucket
 
 import okhttp3.Credentials
 import okhttp3.OkHttpClient
@@ -7,7 +7,6 @@ import org.json.JSONObject
 import java.io.IOException
 
 class BitbucketApiClient(private val baseUrl: String, private val username: String, private val password: String) {
-
     private val client = OkHttpClient()
 
     /**
@@ -19,16 +18,21 @@ class BitbucketApiClient(private val baseUrl: String, private val username: Stri
     /**
      * Refer to: https://docs.atlassian.com/bitbucket-server/rest/5.16.0/bitbucket-rest.html#idm8287387248
      */
-    fun getReposCloneLinksBy(projectKey: String) = getAllValues("/rest/api/1.0/projects/$projectKey/repos")
-        .map { it.getJSONObject("links") }
-        .map {
-            val clones = it.getJSONArray("clone")
-            for (i in 0 until clones.length())
-                if (clones.getJSONObject(i).getString("name") == "http")
-                    return@map clones.getJSONObject(i).getString("href")
-            return@map null
-        }
-        .filterNotNull()
+    fun getReposLinksForProjectKey(projectKey: String) =
+        getAllValues("/rest/api/1.0/projects/$projectKey/repos").mapNotNull { extractHttpCloneUrl(it) }
+
+    /**
+     * Extract the Http URL
+     */
+    private fun extractHttpCloneUrl(repoJSONObject: JSONObject): String? {
+        val linksJSONObject = repoJSONObject.getJSONObject("links")
+        val clones = linksJSONObject.getJSONArray("clone")
+
+        for (i in 0 until clones.length())
+            if (clones.getJSONObject(i).getString("name") == "http")
+                return clones.getJSONObject(i).getString("href")
+        return null
+    }
 
     /**
      * Refer to Paged APIs: https://docs.atlassian.com/bitbucket-server/rest/5.16.0/bitbucket-rest.html

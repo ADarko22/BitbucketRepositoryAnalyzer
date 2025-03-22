@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "2.1.10"
 }
 
-group = "org.example"
+group = "io.github.adarko22"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -21,6 +21,8 @@ dependencies {
 
     implementation("org.apache.maven:maven-embedder:3.8.1")
     implementation("org.apache.maven:maven-compat:3.8.1")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
 }
 
 tasks.test {
