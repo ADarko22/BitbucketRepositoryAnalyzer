@@ -17,7 +17,8 @@ fun main() {
 
     // Setup services
     val repoCloner = RepoCloner(username, password)
-    val reposAnalyser = RepositoriesAnalyser(TomcatRepositoryAnalysisStrategy(), repoCloner)
+    val strategy = TomcatRepositoryAnalysisStrategy()
+    val reposAnalyser = RepositoriesAnalyser(strategy, repoCloner)
     val bitbucketApiClient = BitbucketApiClient(bitbucketUrl, username, password)
     val projectAnalyzer = ProjectsAnalyzer(reposAnalyser, bitbucketApiClient)
 

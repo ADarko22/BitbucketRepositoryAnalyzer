@@ -1,30 +1,48 @@
 package io.github.adarko22.maven
 
-import org.apache.maven.cli.MavenCli
+import org.apache.maven.shared.invoker.*
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.io.ByteArrayOutputStream
-import java.io.PrintStream
 import java.nio.file.Path
 
-class MavenRunner {
+class MavenRunner(
+    private val mavenHome: Path = detectMavenHome(),
+    private val invoker: Invoker = DefaultInvoker(),
+    private val logger: Logger = LoggerFactory.getLogger(MavenRunner::class.java)
+) {
 
-    private val logger = LoggerFactory.getLogger(MavenRunner::class.java)
+    init {
+        require(mavenHome.toFile().exists()) { "Maven home does not exist: $mavenHome" }
+        invoker.mavenHome = mavenHome.toFile()
+    }
+
+    companion object {
+        private fun detectMavenHome(): Path {
+            return System.getenv("M2_HOME")?.let { Path.of(it) }
+                ?: System.getenv("MAVEN_HOME")?.let { Path.of(it) }
+                ?: Path.of(System.getProperty("user.home"), ".sdkman/candidates/maven/current")
+        }
+    }
 
     fun runMavenDependencyTree(repoDir: Path): List<String> {
-        val out = ByteArrayOutputStream()
-        val printStream = PrintStream(out)
+        val outputLines = mutableListOf<String>()
 
-        System.setProperty("maven.home", "~/.sdkman/candidates/maven/current")
-        System.setProperty("maven.multiModuleProjectDirectory", repoDir.toString())
+        val request = DefaultInvocationRequest()
+            .setPomFile(repoDir.resolve("pom.xml").toFile())
+            .addArg("dependency:tree")
+            .setOutputHandler { outputLines.add(it) }
+            .setErrorHandler { logger.error(it) }
+            .setBatchMode(true)
 
-        val mavenCli = MavenCli()
-        val args = arrayOf("-X", "-f", "${repoDir}/pom.xml", "dependency:tree")
+        logger.info("Running `mvn dependency:tree` in {}", repoDir.toAbsolutePath())
 
-        logger.debug("Running `mvn ${args.joinToString { " " }}`")
-        mavenCli.doMain(args, repoDir.toString(), printStream, System.err)
+        val result: InvocationResult = invoker.execute(request)
 
-        return out.toString().lines()
+        if (result.exitCode != 0) {
+            logger.error("Maven execution failed with exit code: ${result.exitCode}")
+            result.executionException?.let { logger.error("Error details:", it) }
+        }
+
+        return outputLines
     }
 }
-
-
