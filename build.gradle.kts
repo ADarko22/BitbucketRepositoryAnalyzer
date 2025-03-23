@@ -1,6 +1,8 @@
 plugins {
     kotlin("jvm") version "2.1.10"
     application
+    jacoco
+    id("org.sonarqube") version "6.0.1.5171"
 }
 
 group = "io.github.adarko22"
@@ -41,14 +43,48 @@ dependencies {
     testImplementation("org.json:json:20250107")
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-
 kotlin {
     jvmToolchain(21)
 }
 
 application {
     mainClass.set("io.github.adarko22.MainKt")
+}
+
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+sourceSets {
+    test {
+        resources {
+            srcDir("src/test/resources")
+        }
+    }
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "ADarko22_BitbucketRepositoryAnalyzer")
+        property("sonar.organization", "ADarko22")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
+}
+
+tasks.test {
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.processTestResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
 }

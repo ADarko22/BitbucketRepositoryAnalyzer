@@ -1,15 +1,16 @@
 package io.github.adarko22.maven
 
+import io.github.adarko22.TestUtils
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import java.nio.file.Paths
+import java.nio.file.Path
 
 class MavenRunnerTest {
 
     @Test
     fun `runMavenDependencyTree should return dependency tree`() {
         val mavenRunner = MavenRunner()
-        val repoDir = Paths.get(this.javaClass.classLoader.getResource("maven-test-project")!!.toURI())
+        val repoDir: Path = TestUtils.getTestResourcePath("maven-test-project")
 
         val result = mavenRunner.runMavenDependencyTree(repoDir)
 

@@ -5,6 +5,9 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
 
+private const val MAVE_HOME_NOT_DETECTED =
+    "Maven home could not be detected. Please set the M2_HOME or MAVEN_HOME environment variable."
+
 class MavenRunner(
     private val mavenHome: Path = detectMavenHome(),
     private val invoker: Invoker = DefaultInvoker(),
@@ -21,6 +24,8 @@ class MavenRunner(
             return System.getenv("M2_HOME")?.let { Path.of(it) }
                 ?: System.getenv("MAVEN_HOME")?.let { Path.of(it) }
                 ?: Path.of(System.getProperty("user.home"), ".sdkman/candidates/maven/current")
+                    .takeIf { it.toFile().exists() }
+                ?: throw IllegalStateException(MAVE_HOME_NOT_DETECTED)
         }
     }
 

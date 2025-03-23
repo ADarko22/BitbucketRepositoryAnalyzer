@@ -1,5 +1,6 @@
 package io.github.adarko22.analyser
 
+import io.github.adarko22.TestUtils
 import io.github.adarko22.analyser.model.RepoAnalysisResult
 import io.github.adarko22.maven.MavenRunner
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -20,7 +21,7 @@ class TomcatRepositoryAnalysisStrategyTest {
 
     @Test
     fun `analyseRepo should detect Tomcat dependencies in a Maven project`() {
-        val mavenProjectDir = Path.of(this.javaClass.classLoader.getResource("maven-test-project")!!.toURI())
+        val mavenProjectDir: Path = TestUtils.getTestResourcePath("maven-test-project")
 
         val result = analysisStrategy.analyseRepo(mavenProjectDir)
 
@@ -34,7 +35,7 @@ class TomcatRepositoryAnalysisStrategyTest {
 
     @Test
     fun `analyseRepo should return 'Not a Maven Project' for non-Maven projects`() {
-        val nonMavenProjectDir = Path.of(this.javaClass.classLoader.getResource("non-maven-test-project")!!.toURI())
+        val nonMavenProjectDir: Path = TestUtils.getTestResourcePath("non-maven-test-project")
 
         val result = analysisStrategy.analyseRepo(nonMavenProjectDir)
 

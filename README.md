@@ -1,5 +1,9 @@
 # Bitbucket Repository Analyzer
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ADarko22_BitbucketRepositoryAnalyzer&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ADarko22_BitbucketRepositoryAnalyzer)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ADarko22_BitbucketRepositoryAnalyzer&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ADarko22_BitbucketRepositoryAnalyzer)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=ADarko22_BitbucketRepositoryAnalyzer&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=ADarko22_BitbucketRepositoryAnalyzer)
+
 This Kotlin project allows you to **clone repositories from Bitbucket and analyze them**.  
 A repository can be analyzed according to
 a [RepositoriesAnalyser](src/main/kotlin/io/github/adarko22/analyser/RepositoriesAnalyser.kt).
