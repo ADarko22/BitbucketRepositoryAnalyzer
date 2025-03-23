@@ -1,6 +1,6 @@
 package io.github.adarko22.analyser
 
-import io.github.adarko22.RepoAnalysisResult
+import io.github.adarko22.analyser.model.RepoAnalysisResult
 import io.github.adarko22.bitbucket.RepoCloner
 import org.apache.commons.io.FileUtils
 import org.slf4j.LoggerFactory
@@ -8,7 +8,8 @@ import java.nio.file.Path
 
 class RepositoriesAnalyser(
     private val strategy: RepositoryAnalysisStrategy,
-    private val cloner: RepoCloner
+    private val cloner: RepoCloner,
+    private val baseCloneDir: Path = Path.of(System.getProperty("user.dir"))
 ) {
     private val logger = LoggerFactory.getLogger(RepositoriesAnalyser::class.java)
 
@@ -17,7 +18,7 @@ class RepositoriesAnalyser(
 
     private fun analyseRepo(repoCloneLink: String): RepoAnalysisResult? {
         val repoName = extractRepoNameFrom(repoCloneLink)
-        val repoDir = repoDirPath(repoName)
+        val repoDir = baseCloneDir.resolve(repoName)
 
         return try {
             cleanDirectory(repoDir)
@@ -41,6 +42,4 @@ class RepositoriesAnalyser(
 
     private fun extractRepoNameFrom(repoLink: String): String =
         repoLink.substringAfterLast('/').substringBeforeLast('.')
-
-    private fun repoDirPath(repoName: String): Path = Path.of(System.getProperty("user.dir"), repoName)
 }

@@ -1,6 +1,6 @@
 package io.github.adarko22.analyser
 
-import io.github.adarko22.RepoAnalysisResult
+import io.github.adarko22.analyser.model.RepoAnalysisResult
 import io.github.adarko22.maven.MavenRunner
 import org.slf4j.LoggerFactory
 import java.nio.file.Files
@@ -11,6 +11,7 @@ import kotlin.io.path.pathString
 class TomcatRepositoryAnalysisStrategy(
     private val mavenRunner: MavenRunner = MavenRunner()
 ) : RepositoryAnalysisStrategy {
+
     private val logger = LoggerFactory.getLogger(TomcatRepositoryAnalysisStrategy::class.java)
     private val tomcatPattern = Regex("org.apache.tomcat[^:]*:\\S+:(\\d+\\.\\d+\\.\\d+)(?:\\.\\d+)?")
 

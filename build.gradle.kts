@@ -30,8 +30,15 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
     testImplementation("org.mockito:mockito-core:5.5.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+    testImplementation("org.mockito:mockito-junit-jupiter:3.9.0")
+    testImplementation("org.assertj:assertj-core:3.19.0")
+
     testImplementation("org.slf4j:slf4j-api:2.0.9")
     testImplementation("org.slf4j:slf4j-simple:2.0.9")
+
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
+    testImplementation("com.squareup.okhttp3:okhttp:4.12.0")
+    testImplementation("org.json:json:20250107")
 }
 
 tasks.test {

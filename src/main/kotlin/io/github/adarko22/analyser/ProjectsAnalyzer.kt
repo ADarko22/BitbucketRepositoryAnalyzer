@@ -1,6 +1,6 @@
 package io.github.adarko22.analyser
 
-import io.github.adarko22.ProjectAnalysisResult
+import io.github.adarko22.analyser.model.ProjectAnalysisResult
 import io.github.adarko22.bitbucket.BitbucketApiClient
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

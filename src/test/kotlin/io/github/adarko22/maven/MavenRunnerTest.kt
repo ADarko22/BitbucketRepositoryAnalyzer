@@ -9,7 +9,7 @@ class MavenRunnerTest {
     @Test
     fun `runMavenDependencyTree should return dependency tree`() {
         val mavenRunner = MavenRunner()
-        val repoDir = Paths.get(this.javaClass.classLoader.getResource("test-project")!!.toURI())
+        val repoDir = Paths.get(this.javaClass.classLoader.getResource("maven-test-project")!!.toURI())
 
         val result = mavenRunner.runMavenDependencyTree(repoDir)
 
