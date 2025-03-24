@@ -60,7 +60,7 @@ variables:
 - **BITBUCKET_URL**: The URL of your Bitbucket instance (e.g., https://bitbucket.org).
 - **BITBUCKET_USERNAME**: Your Bitbucket username.
 - **BITBUCKET_PASSWORD**: Your Bitbucket password.
-- **PROJECT_KEYS**: The proejct keys of the repositories to analyse. Defaul all.
+- **PROJECT_KEYS**: The proejct keys of the repositories to analyse. Comma-separated list. By default it fetches all projects.
 - **DEPENDENCY_REGEX**: The Regex to use for filtering the dependency on the analysed Maven Projects.
   E.g. `org.apache.tomcat[^:]*:\\S+:(\\d+\\.\\d+\\.\\d+)(?:\\.\\d+)?` for *org.apache.tomcat* dependencies (default).
 
@@ -78,16 +78,12 @@ You may also configure additional options such as **repository filters** or **an
 Once everything is set up, run the application using:
 
 ```sh
+export BITBUCKET_URL=<BITBUCKET_URL>
+export BITBUCKET_USERNAME=<BITBUCKET_USERNAME>
+export BITBUCKET_PASSWORD=<BITBUCKET_PASSWORD>
+export PROJECT_KEYS=<PROJECT_KEYS_COMMA_SEPARATED_LIST>
 ./gradlew run
 ```
-
-Or, if running manually:
-
-```sh
-java -jar build/libs/bitbucket-repo-analyzer.jar
-```
-
----
 
 ## 📊 Expected Output
 
