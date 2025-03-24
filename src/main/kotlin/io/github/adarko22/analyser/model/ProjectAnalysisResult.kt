@@ -5,12 +5,12 @@ data class ProjectAnalysisResult(
     val repoAnalysisResultList: List<RepoAnalysisResult>
 ) {
     override fun toString(): String {
-        val repoResults = repoAnalysisResultList.joinToString("\n\t- ")
-        return """
-            Project: $projectKey
-            Repositories Analysis:
-                $repoResults
-        """.trimIndent()
+        val repoAnalysisFormatted = repoAnalysisResultList.joinToString(separator = "\n") { "- $it" }
+        return buildString {
+            appendLine("Project: $projectKey")
+            appendLine("Repositories Analysis:")
+            appendLine(repoAnalysisFormatted)
+        }
     }
 }
 

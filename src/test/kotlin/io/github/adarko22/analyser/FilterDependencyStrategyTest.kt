@@ -28,7 +28,7 @@ class FilterDependencyStrategyTest {
         // Then: The result should contain Tomcat dependencies
         val expected = RepoAnalysisResult(
             repoName = "maven-test-project",
-            analysisInfo = listOf("org.apache.tomcat:tomcat-catalina:jar:9.0.0")
+            analysisInfo = listOf("org.apache.tomcat:tomcat-util:jar:9.0.94", "org.apache.tomcat:tomcat-juli:jar:9.0.94")
         )
         assertEquals(expected, result)
     }

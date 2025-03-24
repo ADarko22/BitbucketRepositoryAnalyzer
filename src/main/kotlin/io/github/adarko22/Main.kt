@@ -18,8 +18,8 @@ fun main() {
         try {
             val result = projectAnalyzer.analyzeAllProjectsAndGenerateReport(projectKeys)
 
-            logger.info("===== Summary of All Analysis Results=====")
-            result.forEach { logger.info("- $it") }
+            logger.info("\n===== Summary of All Analysis Results=====")
+            result.forEach { logger.info("\n$it") }
         } catch (e: Exception) {
             logger.error("Error analyzing projects: ${e.message}", e)
         }

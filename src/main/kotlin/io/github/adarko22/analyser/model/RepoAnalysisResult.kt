@@ -5,11 +5,11 @@ data class RepoAnalysisResult(
     val analysisInfo: List<String>
 ) {
     override fun toString(): String {
-        val analysisDetails = analysisInfo.joinToString("\n\t- ")
-        return """
-            Repository: $repoName
-            Analysis Information:
-                $analysisDetails
-        """.trimIndent()
+        val analysisInfoFormatted = analysisInfo.joinToString(separator = "\n") { "\t\t- $it" }
+        return buildString {
+            appendLine("Repository: $repoName")
+            appendLine("\tAnalysis Information:")
+            appendLine(analysisInfoFormatted)
+        }
     }
 }
