@@ -72,6 +72,7 @@ sonar {
         property("sonar.projectKey", "ADarko22_BitbucketRepositoryAnalyzer")
         property("sonar.organization", "adarko22-dev")
         property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.exclusions", "**/Main.kt,**/model/**")
     }
 }
 
