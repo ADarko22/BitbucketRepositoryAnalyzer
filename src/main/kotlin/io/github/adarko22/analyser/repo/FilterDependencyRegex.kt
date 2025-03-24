@@ -1,4 +1,4 @@
-package io.github.adarko22.analyser
+package io.github.adarko22.analyser.repo
 
 
 enum class FilterDependencyRegex(val regex: Regex) {

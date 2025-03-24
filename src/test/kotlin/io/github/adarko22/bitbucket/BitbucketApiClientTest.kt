@@ -17,7 +17,7 @@ class BitbucketApiClientTest {
     fun setUp() {
         mockWebServer = MockWebServer()
         mockWebServer.start()
-        val baseUrl = mockWebServer.url("/").toString()
+        val baseUrl = mockWebServer.url("/baseUrl").toString()
         bitbucketApiClient = BitbucketApiClient(baseUrl, "username", "password")
     }
 
@@ -44,7 +44,7 @@ class BitbucketApiClientTest {
 
         val projectKeys = bitbucketApiClient.getProjectKeys()
 
-        verifyRequestPath("/rest/api/1.0/projects?start=0")
+        verifyRequestPath("/baseUrl/rest/api/1.0/projects?start=0")
         verifyResponse(projectKeys, listOf("PROJ1"))
     }
 
@@ -72,7 +72,7 @@ class BitbucketApiClientTest {
 
         val repoLinks = bitbucketApiClient.getReposLinksForProjectKey("PROJ1")
 
-        verifyRequestPath("/rest/api/1.0/projects/PROJ1/repos?start=0")
+        verifyRequestPath("/baseUrl/rest/api/1.0/projects/PROJ1/repos?start=0")
         verifyResponse(repoLinks, listOf("http://example.com/scm/proj1/repo1.git"))
     }
 

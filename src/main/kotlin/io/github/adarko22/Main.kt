@@ -1,6 +1,9 @@
 package io.github.adarko22
 
 import io.github.adarko22.analyser.*
+import io.github.adarko22.analyser.repo.FilterDependencyRegex
+import io.github.adarko22.analyser.repo.FilterDependencyStrategy
+import io.github.adarko22.analyser.repo.RepositoriesAnalyser
 import io.github.adarko22.bitbucket.BitbucketApiClient
 import io.github.adarko22.bitbucket.RepoCloner
 import io.github.adarko22.maven.MavenRunner

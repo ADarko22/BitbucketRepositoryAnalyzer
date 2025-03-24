@@ -56,9 +56,7 @@ class BitbucketApiClient(private val baseUrl: String, private val username: Stri
         var isLastPage = false
 
         while (!isLastPage) {
-            // Ensure no leading slash in the endpoint
-            val sanitizedEndpoint = endpoint.removePrefix("/")
-            val requestUrl = "$baseUrl$sanitizedEndpoint?start=$page"
+            val requestUrl = "$baseUrl$endpoint?start=$page"
 
             val request = Request.Builder()
                 .url(requestUrl)

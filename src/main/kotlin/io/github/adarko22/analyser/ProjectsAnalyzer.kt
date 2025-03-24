@@ -1,6 +1,7 @@
 package io.github.adarko22.analyser
 
 import io.github.adarko22.analyser.model.ProjectAnalysisResult
+import io.github.adarko22.analyser.repo.RepositoriesAnalyser
 import io.github.adarko22.bitbucket.BitbucketApiClient
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -21,12 +22,12 @@ class ProjectsAnalyzer(
         // Split projectKeys across available CPU cores
         return coroutineScope {
             projectKeys.chunked(chunkSize).map { chunk ->
-                async { analyzeProjects(chunk) }
+                async { analyseProjects(chunk) }
             }.awaitAll()
         }.flatten()
     }
 
-    private fun analyzeProjects(projectKeys: List<String>): List<ProjectAnalysisResult> {
+    private fun analyseProjects(projectKeys: List<String>): List<ProjectAnalysisResult> {
         return projectKeys.map { projectKey ->
             logger.info("Analysing project $projectKey")
             val reposCloneLinks = bitbucketApiClient.getReposLinksForProjectKey(projectKey)
