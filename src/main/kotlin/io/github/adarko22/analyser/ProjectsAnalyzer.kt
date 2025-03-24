@@ -14,8 +14,8 @@ class ProjectsAnalyzer(
     private val logger = LoggerFactory.getLogger(ProjectsAnalyzer::class.java)
     private val numCores = Runtime.getRuntime().availableProcessors()
 
-    suspend fun analyzeAllProjectsAndGenerateReport(): List<ProjectAnalysisResult> {
-        val projectKeys = bitbucketApiClient.getProjectKeys()
+    suspend fun analyzeAllProjectsAndGenerateReport(targetProjectKeys: List<String> = emptyList()): List<ProjectAnalysisResult> {
+        val projectKeys = targetProjectKeys.ifEmpty { bitbucketApiClient.getProjectKeys() }
         val chunkSize = projectKeys.size / numCores + 1
 
         // Split projectKeys across available CPU cores

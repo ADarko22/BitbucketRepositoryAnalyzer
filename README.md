@@ -17,7 +17,7 @@ a [RepositoriesAnalyser](src/main/kotlin/io/github/adarko22/analyser/Repositorie
 
 ### Current Repository Analysis Strategies
 
-- 📌 [TomcatRepositoryAnalysisStrategy](src/main/kotlin/io/github/adarko22/analyser/TomcatRepositoryAnalysisStrategy.kt)
+- 📌 [FilterDependencyStrategy](src/main/kotlin/io/github/adarko22/analyser/FilterDependencyStrategy.kt): Requires setting the `DEPENDENCY_REGEX` env variable.
 
 ---
 
@@ -60,6 +60,9 @@ variables:
 - **BITBUCKET_URL**: The URL of your Bitbucket instance (e.g., https://bitbucket.org).
 - **BITBUCKET_USERNAME**: Your Bitbucket username.
 - **BITBUCKET_PASSWORD**: Your Bitbucket password.
+- **PROJECT_KEYS**: The proejct keys of the repositories to analyse. Defaul all.
+- **DEPENDENCY_REGEX**: The Regex to use for filtering the dependency on the analysed Maven Projects.
+  E.g. `org.apache.tomcat[^:]*:\\S+:(\\d+\\.\\d+\\.\\d+)(?:\\.\\d+)?` for *org.apache.tomcat* dependencies (default).
 
 Ensure that your **Maven installation** is correctly configured:
 

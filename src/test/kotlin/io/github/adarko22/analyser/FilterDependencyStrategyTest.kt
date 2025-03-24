@@ -8,15 +8,15 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.nio.file.Path
 
-class TomcatRepositoryAnalysisStrategyTest {
+class FilterDependencyStrategyTest {
 
     private lateinit var mavenRunner: MavenRunner
-    private lateinit var analysisStrategy: TomcatRepositoryAnalysisStrategy
+    private lateinit var analysisStrategy: FilterDependencyStrategy
 
     @BeforeEach
     fun setUp() {
         mavenRunner = MavenRunner()
-        analysisStrategy = TomcatRepositoryAnalysisStrategy(mavenRunner)
+        analysisStrategy = FilterDependencyStrategy(FilterDependencyRegex.TOMCAT.regex, mavenRunner)
     }
 
     @Test

@@ -8,19 +8,19 @@ import java.nio.file.Path
 import kotlin.io.path.name
 import kotlin.io.path.pathString
 
-class TomcatRepositoryAnalysisStrategy(
+class FilterDependencyStrategy(
+    private val filterDependencyRegex: Regex,
     private val mavenRunner: MavenRunner = MavenRunner()
 ) : RepositoryAnalysisStrategy {
 
-    private val logger = LoggerFactory.getLogger(TomcatRepositoryAnalysisStrategy::class.java)
-    private val tomcatPattern = Regex("org.apache.tomcat[^:]*:\\S+:(\\d+\\.\\d+\\.\\d+)(?:\\.\\d+)?")
+    private val logger = LoggerFactory.getLogger(FilterDependencyStrategy::class.java)
 
     override fun analyseRepo(repoDir: Path): RepoAnalysisResult {
         val result = when {
             isMavenProject(repoDir) -> {
                 logger.info("Analyzing Dependency Tree for Tomcat dependencies:")
                 mavenRunner.runMavenDependencyTree(repoDir)
-                    .mapNotNull { line -> tomcatPattern.find(line)?.value }
+                    .mapNotNull { line -> filterDependencyRegex.find(line)?.value }
                     .distinct()
                     .ifEmpty { listOf("No result found") }
             }
