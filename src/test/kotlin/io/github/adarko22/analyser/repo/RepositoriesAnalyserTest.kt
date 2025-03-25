@@ -5,10 +5,12 @@ import io.github.adarko22.bitbucket.RepoCloner
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.io.TempDir
 import org.mockito.Mockito.*
 import java.nio.file.Path
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RepositoriesAnalyserTest {
 
     private val repoUrl = "https://example.com/scm/project/repo.git"

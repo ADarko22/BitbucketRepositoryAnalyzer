@@ -3,7 +3,6 @@ package io.github.adarko22.analyser
 import io.github.adarko22.analyser.model.ProjectAnalysisResult
 import io.github.adarko22.analyser.model.ProjectAnalysisResultList
 import io.github.adarko22.analyser.model.toProjectAnalysisResultList
-import io.github.adarko22.analyser.model.toRepoAnalysisResultList
 import io.github.adarko22.analyser.repo.RepositoriesAnalyser
 import io.github.adarko22.bitbucket.BitbucketApiClient
 import kotlinx.coroutines.async

@@ -3,8 +3,10 @@ package io.github.adarko22.maven
 import io.github.adarko22.TestUtils
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import java.nio.file.Path
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MavenRunnerTest {
 
     @Test

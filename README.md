@@ -17,7 +17,8 @@ a [RepositoryAnalysisStrategy](src/main/kotlin/io/github/adarko22/analyser/repo/
 
 ### Current Repository Analysis Strategies
 
-- 📌 [FilterDependencyStrategy](src/main/kotlin/io/github/adarko22/analyser/repo/FilterDependencyStrategy.kt): Requires setting the `DEPENDENCY_REGEX` env variable.
+- 📌 [FilterDependencyStrategy](src/main/kotlin/io/github/adarko22/analyser/repo/FilterDependencyStrategy.kt): Requires
+  setting the `DEPENDENCY_REGEX` env variable.
 
 ---
 
@@ -43,7 +44,8 @@ This project requires **Java 21 or later**. If you don't have it installed use s
 #### 🔹 Install Maven
 
 [MavenRunner](src/main/kotlin/io/github/adarko22/maven/MavenRunner.kt) **automatically detects Maven** using the
-`M2_HOME` or `MAVEN_HOME` environment variable. If you don't have Maven installed use sdk man to install it:
+`M2_HOME` or `MAVEN_HOME` environment variable (see [Config](src/main/kotlin/io/github/adarko22/Config.kt)).
+If you don't have Maven installed use sdk man to install it:
 
   ```sh
   sdk install maven 3.8.1
@@ -54,8 +56,8 @@ This project requires **Java 21 or later**. If you don't have it installed use s
 
 ### 2️⃣ Configuration
 
-In [Main](src/main/kotlin/io/github/adarko22/Main.kt), the following configuration values are required via environment
-variables:
+The following configuration values are required via environment variables
+(see [Config](src/main/kotlin/io/github/adarko22/Config.kt)):
 
 - **BITBUCKET_URL**: The URL of your Bitbucket instance (e.g., https://bitbucket.org).
 - **BITBUCKET_USERNAME**: Your Bitbucket username.

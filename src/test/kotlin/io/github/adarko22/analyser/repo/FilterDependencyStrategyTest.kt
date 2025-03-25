@@ -6,8 +6,10 @@ import io.github.adarko22.maven.MavenRunner
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import java.nio.file.Path
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FilterDependencyStrategyTest {
 
     private lateinit var mavenRunner: MavenRunner
@@ -28,7 +30,10 @@ class FilterDependencyStrategyTest {
         // Then: The result should contain Tomcat dependencies
         val expected = RepoAnalysisResult(
             repoName = "maven-test-project",
-            analysisInfo = listOf("org.apache.tomcat:tomcat-util:jar:9.0.94", "org.apache.tomcat:tomcat-juli:jar:9.0.94")
+            analysisInfo = listOf(
+                "org.apache.tomcat:tomcat-util:jar:9.0.94",
+                "org.apache.tomcat:tomcat-juli:jar:9.0.94"
+            )
         )
         assertEquals(expected, result)
     }
