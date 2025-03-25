@@ -1,6 +1,9 @@
 package io.github.adarko22.analyser
 
 import io.github.adarko22.analyser.model.ProjectAnalysisResult
+import io.github.adarko22.analyser.model.ProjectAnalysisResultList
+import io.github.adarko22.analyser.model.toProjectAnalysisResultList
+import io.github.adarko22.analyser.model.toRepoAnalysisResultList
 import io.github.adarko22.analyser.repo.RepositoriesAnalyser
 import io.github.adarko22.bitbucket.BitbucketApiClient
 import kotlinx.coroutines.async
@@ -15,7 +18,7 @@ class ProjectsAnalyzer(
     private val logger = LoggerFactory.getLogger(ProjectsAnalyzer::class.java)
     private val numCores = Runtime.getRuntime().availableProcessors()
 
-    suspend fun analyzeAllProjectsAndGenerateReport(targetProjectKeys: List<String> = emptyList()): List<ProjectAnalysisResult> {
+    suspend fun analyzeAllProjectsAndGenerateReport(targetProjectKeys: List<String> = emptyList()): ProjectAnalysisResultList {
         val projectKeys = targetProjectKeys.ifEmpty { bitbucketApiClient.getProjectKeys() }
         val chunkSize = projectKeys.size / numCores + 1
 
@@ -25,6 +28,7 @@ class ProjectsAnalyzer(
                 async { analyseProjects(chunk) }
             }.awaitAll()
         }.flatten()
+            .toProjectAnalysisResultList()
     }
 
     private fun analyseProjects(projectKeys: List<String>): List<ProjectAnalysisResult> {

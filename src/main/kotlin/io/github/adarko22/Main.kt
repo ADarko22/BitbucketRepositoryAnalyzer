@@ -9,6 +9,7 @@ import io.github.adarko22.bitbucket.RepoCloner
 import io.github.adarko22.maven.MavenRunner
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
+import java.io.File
 
 fun main() {
     val logger = LoggerFactory.getLogger("Main")
@@ -20,9 +21,11 @@ fun main() {
     runBlocking {
         try {
             val result = projectAnalyzer.analyzeAllProjectsAndGenerateReport(projectKeys)
+            logger.info("\n\n===== Summary of All Analysis Results=====\n$result")
+            // Write to file
+            val outputFile = File("analysis_report.json")
+            outputFile.writeText(result.toJson().toString(4)) // Pretty print with 4 spaces indentation
 
-            logger.info("\n===== Summary of All Analysis Results=====")
-            result.forEach { logger.info("\n$it") }
         } catch (e: Exception) {
             logger.error("Error analyzing projects: ${e.message}", e)
         }

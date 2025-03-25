@@ -1,5 +1,8 @@
 package io.github.adarko22.analyser
 
+import io.github.adarko22.analyser.model.RepoAnalysisResult
+import io.github.adarko22.analyser.model.RepoAnalysisResultList
+import io.github.adarko22.analyser.model.toRepoAnalysisResultList
 import io.github.adarko22.analyser.repo.RepositoriesAnalyser
 import io.github.adarko22.bitbucket.BitbucketApiClient
 import kotlinx.coroutines.runBlocking
@@ -32,7 +35,7 @@ class ProjectsAnalyzerTest {
         whenever(bitbucketApiClient.getProjectKeys()).thenReturn(projectKeys)
         whenever(bitbucketApiClient.getReposLinksForProjectKey(project1)).thenReturn(reposCloneLinks)
         whenever(bitbucketApiClient.getReposLinksForProjectKey(project2)).thenReturn(reposCloneLinks)
-        whenever(reposAnalyser.analyseRepos(reposCloneLinks)).thenReturn(listOf())
+        whenever(reposAnalyser.analyseRepos(reposCloneLinks)).thenReturn(emptyList<RepoAnalysisResult>().toRepoAnalysisResultList())
     }
 
     @ParameterizedTest(name = "{index} => {0}")
@@ -40,9 +43,9 @@ class ProjectsAnalyzerTest {
     fun `should analyse projects with correct interactions`(testCase: String, projectKeysToAnalyse: List<String>) {
         runBlocking {
             val result = projectsAnalyzer.analyzeAllProjectsAndGenerateReport(projectKeysToAnalyse)
-            assertEquals(2, result.size)
-            assertEquals(project1, result[0].projectKey)
-            assertEquals(project2, result[1].projectKey)
+            assertEquals(2, result.projectAnalysisResults.size)
+            assertEquals(project1, result.projectAnalysisResults[0].projectKey)
+            assertEquals(project2, result.projectAnalysisResults[1].projectKey)
         }
 
         verify(bitbucketApiClient).getReposLinksForProjectKey(project1)

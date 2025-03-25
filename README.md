@@ -6,18 +6,18 @@
 
 This Kotlin project allows you to **clone repositories from Bitbucket and analyze them**.  
 A repository can be analyzed according to
-a [RepositoriesAnalyser](src/main/kotlin/io/github/adarko22/analyser/RepositoriesAnalyser.kt).
+a [RepositoryAnalysisStrategy](src/main/kotlin/io/github/adarko22/analyser/repo/RepositoryAnalysisStrategy.kt).
 
 ## 🚀 Features
 
 - ✅ **Clones all repositories** from a specified Bitbucket URL →
   See [BitbucketApiClient](src/main/kotlin/io/github/adarko22/bitbucket/BitbucketApiClient.kt)
-    - ✅ **Analyzes cloned repositories** according to a strategy →
-      See [RepositoriesAnalyser](src/main/kotlin/io/github/adarko22/analyser/RepositoriesAnalyser.kt)
+- ✅ **Analyzes cloned repositories** according to a strategy →
+  See [RepositoriesAnalyser](src/main/kotlin/io/github/adarko22/analyser/repo/RepositoryAnalysisStrategy.kt).
 
 ### Current Repository Analysis Strategies
 
-- 📌 [FilterDependencyStrategy](src/main/kotlin/io/github/adarko22/analyser/FilterDependencyStrategy.kt): Requires setting the `DEPENDENCY_REGEX` env variable.
+- 📌 [FilterDependencyStrategy](src/main/kotlin/io/github/adarko22/analyser/repo/FilterDependencyStrategy.kt): Requires setting the `DEPENDENCY_REGEX` env variable.
 
 ---
 
@@ -60,8 +60,8 @@ variables:
 - **BITBUCKET_URL**: The URL of your Bitbucket instance (e.g., https://bitbucket.org).
 - **BITBUCKET_USERNAME**: Your Bitbucket username.
 - **BITBUCKET_PASSWORD**: Your Bitbucket password.
-- **PROJECT_KEYS**: The proejct keys of the repositories to analyse. Comma-separated list. By default it fetches all projects.
-- **DEPENDENCY_REGEX**: The Regex to use for filtering the dependency on the analysed Maven Projects.
+- **PROJECT_KEYS**: Comma-separated list of proejct keys to analyse. By default, it fetches all projects.
+- **DEPENDENCY_REGEX**: Regex for filtering the dependency on the analysed Maven Projects.
   E.g. `org.apache.tomcat[^:]*:\\S+:(\\d+\\.\\d+\\.\\d+)(?:\\.\\d+)?` for *org.apache.tomcat* dependencies (default).
 
 Ensure that your **Maven installation** is correctly configured:
@@ -91,4 +91,5 @@ The application prints:
 
 1. **Progress logs** as it clones and analyzes each repository.
 2. **A summary at the end**, which may take time depending on the number of repositories.
+3. **A summary file** in the working directory: `analysis_report.json`
 

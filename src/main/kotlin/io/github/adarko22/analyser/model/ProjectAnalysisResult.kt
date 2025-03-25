@@ -1,16 +1,25 @@
 package io.github.adarko22.analyser.model
 
+import org.json.JSONObject
+
 data class ProjectAnalysisResult(
     val projectKey: String,
-    val repoAnalysisResultList: List<RepoAnalysisResult>
+    val repoAnalysisResultList: RepoAnalysisResultList
 ) {
     override fun toString(): String {
-        val repoAnalysisFormatted = repoAnalysisResultList.joinToString(separator = "\n") { "- $it" }
         return buildString {
             appendLine("Project: $projectKey")
             appendLine("Repositories Analysis:")
-            appendLine(repoAnalysisFormatted)
+            appendLine(repoAnalysisResultList)
         }
     }
+
+    fun toJson(): JSONObject {
+        val json = JSONObject()
+        json.put("projectKey", projectKey)
+        json.put("repoAnalysisResultList", repoAnalysisResultList.toJson())
+        return json
+    }
 }
+
 

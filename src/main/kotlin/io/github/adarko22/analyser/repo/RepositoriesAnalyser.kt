@@ -1,6 +1,8 @@
 package io.github.adarko22.analyser.repo
 
 import io.github.adarko22.analyser.model.RepoAnalysisResult
+import io.github.adarko22.analyser.model.RepoAnalysisResultList
+import io.github.adarko22.analyser.model.toRepoAnalysisResultList
 import io.github.adarko22.bitbucket.RepoCloner
 import org.apache.commons.io.FileUtils
 import org.slf4j.LoggerFactory
@@ -13,8 +15,8 @@ class RepositoriesAnalyser(
 ) {
     private val logger = LoggerFactory.getLogger(RepositoriesAnalyser::class.java)
 
-    fun analyseRepos(reposCloneLinks: List<String>): List<RepoAnalysisResult> =
-        reposCloneLinks.mapNotNull { analyseRepo(it) }
+    fun analyseRepos(reposCloneLinks: List<String>): RepoAnalysisResultList =
+        reposCloneLinks.mapNotNull { analyseRepo(it) }.toRepoAnalysisResultList()
 
     private fun analyseRepo(repoCloneLink: String): RepoAnalysisResult? {
         val repoName = extractRepoNameFrom(repoCloneLink)
@@ -23,7 +25,9 @@ class RepositoriesAnalyser(
         return try {
             cleanDirectory(repoDir)
             cloner.cloneRepo(repoCloneLink, repoDir)
-            strategy.analyseRepo(repoDir)
+            val result = strategy.analyseRepo(repoDir)
+            logger.info(result.toString())
+            return result
         } catch (e: Exception) {
             logger.error("Error processing repository {}: {}", repoName, e.message, e)
             null

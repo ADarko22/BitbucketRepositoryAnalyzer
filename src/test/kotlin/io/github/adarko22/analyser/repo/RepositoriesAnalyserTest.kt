@@ -32,7 +32,7 @@ class RepositoriesAnalyserTest {
         val expectedResult = RepoAnalysisResult(repoName, listOf("Some Analysis Result"))
         `when`(strategy.analyseRepo(repoDir)).thenReturn(expectedResult)
         val results = repositoriesAnalyser.analyseRepos(listOf(repoUrl))
-        assertTrue(results.contains(expectedResult))
+        assertTrue(results.repoAnalysisResults.contains(expectedResult))
         verify(repoCloner).cloneRepo(repoUrl, repoDir)
     }
 
@@ -40,6 +40,6 @@ class RepositoriesAnalyserTest {
     fun `analyseRepos should handle clone failure gracefully`() {
         doThrow(RuntimeException("Clone failed")).`when`(repoCloner).cloneRepo(repoUrl, repoDir)
         val results = repositoriesAnalyser.analyseRepos(listOf(repoUrl))
-        assertTrue(results.isEmpty())
+        assertTrue(results.repoAnalysisResults.isEmpty())
     }
 }

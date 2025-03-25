@@ -1,5 +1,8 @@
 package io.github.adarko22.analyser.model
 
+import org.json.JSONArray
+import org.json.JSONObject
+
 data class RepoAnalysisResult(
     val repoName: String,
     val analysisInfo: List<String>
@@ -11,5 +14,12 @@ data class RepoAnalysisResult(
             appendLine("\tAnalysis Information:")
             appendLine(analysisInfoFormatted)
         }
+    }
+
+    fun toJson(): JSONObject {
+        val json = JSONObject()
+        json.put("repoName", repoName)
+        json.put("analysisInfo", JSONArray(analysisInfo))
+        return json
     }
 }

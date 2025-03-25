@@ -27,8 +27,6 @@ class FilterDependencyStrategy(
 
             else -> listOf("Not a Maven Project")
         }
-
-        logger.info(result.joinToString("\n"))
         return RepoAnalysisResult(repoDir.fileName.name, result)
     }
 
