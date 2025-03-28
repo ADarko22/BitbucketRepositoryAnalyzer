@@ -31,7 +31,6 @@ class MavenRunner(
             .setBatchMode(true)
 
         logger.info("Running `mvn dependency:tree` in {}", repoDir.toAbsolutePath())
-
         val result: InvocationResult = invoker.execute(request)
 
         if (result.exitCode != 0) {

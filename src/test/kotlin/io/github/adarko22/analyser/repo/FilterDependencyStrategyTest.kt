@@ -40,13 +40,13 @@ class FilterDependencyStrategyTest {
 
     @Test
     fun `analyseRepo should return 'Not a Maven Project' for non-Maven projects`() {
-        val nonMavenProjectDir: Path = TestUtils.getTestResourcePath("non-maven-test-project")
+        val nonMavenProjectDir: Path = TestUtils.getTestResourcePath("unsupported-test-project")
 
         val result = analysisStrategy.analyseRepo(nonMavenProjectDir)
 
         // Then: The result should indicate it's not a Maven project
         val expected = RepoAnalysisResult(
-            repoName = "non-maven-test-project",
+            repoName = "unsupported-test-project",
             analysisInfo = listOf("Not a Maven Project")
         )
         assertEquals(expected, result)
