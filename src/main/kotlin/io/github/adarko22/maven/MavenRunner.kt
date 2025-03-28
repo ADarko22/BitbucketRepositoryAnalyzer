@@ -34,8 +34,7 @@ class MavenRunner(
         val result: InvocationResult = invoker.execute(request)
 
         if (result.exitCode != 0) {
-            logger.error("Maven execution failed with exit code: ${result.exitCode}")
-            result.executionException?.let { logger.error("Error details:", it) }
+            logger.error("Error running dependencies task for project $repoDir: ${result.executionException}")
         }
 
         return outputLines

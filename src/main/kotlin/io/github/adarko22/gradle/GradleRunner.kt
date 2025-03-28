@@ -38,7 +38,7 @@ class GradleRunner {
                 .forTasks("$projectPath:dependencies")
                 .run()
         } catch (ex: Exception) {
-            logger.error("Error running dependencies task for project {}: {}", projectPath, ex.message)
+            logger.error("Error running dependencies task for project $projectPath: $ex.message")
         }
 
         return outputStream.toString().lineSequence().filter(String::isNotEmpty).toList()

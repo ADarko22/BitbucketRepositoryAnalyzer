@@ -2,32 +2,17 @@ package io.github.adarko22.analyser.repo
 
 import io.github.adarko22.TestUtils
 import io.github.adarko22.analyser.model.RepoAnalysisResult
-import io.github.adarko22.maven.MavenRunner
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import java.nio.file.Path
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FilterDependencyStrategyTest {
 
-    private lateinit var mavenRunner: MavenRunner
-    private lateinit var analysisStrategy: FilterDependencyStrategy
-
-    @BeforeEach
-    fun setUp() {
-        mavenRunner = MavenRunner()
-        analysisStrategy = FilterDependencyStrategy(FilterDependencyRegex.TOMCAT.regex, mavenRunner)
-    }
-
     @Test
-    fun `analyseRepo should detect Tomcat dependencies in a Maven project`() {
-        val mavenProjectDir: Path = TestUtils.getTestResourcePath("maven-test-project")
-
-        val result = analysisStrategy.analyseRepo(mavenProjectDir)
-
-        // Then: The result should contain Tomcat dependencies
+    fun `should detect Tomcat dependencies in Maven project`() {
+        val result = runAnalysisWithFilter(FilterDependencyRegex.TOMCAT, "maven-test-project")
         val expected = RepoAnalysisResult(
             repoName = "maven-test-project",
             analysisInfo = listOf(
@@ -39,16 +24,28 @@ class FilterDependencyStrategyTest {
     }
 
     @Test
-    fun `analyseRepo should return 'Not a Maven Project' for non-Maven projects`() {
-        val nonMavenProjectDir: Path = TestUtils.getTestResourcePath("unsupported-test-project")
-
-        val result = analysisStrategy.analyseRepo(nonMavenProjectDir)
-
-        // Then: The result should indicate it's not a Maven project
+    fun `should detect JUnit dependencies in Gradle project`() {
+        val result = runAnalysisWithFilter(FilterDependencyRegex.JUNIT, "gradle-test-project")
         val expected = RepoAnalysisResult(
-            repoName = "unsupported-test-project",
-            analysisInfo = listOf("Not a Maven Project")
+            repoName = "gradle-test-project",
+            analysisInfo = listOf("junit:junit:4.13.2")
         )
         assertEquals(expected, result)
+    }
+
+    @Test
+    fun `should return 'Not a Supported Project' for unsupported projects`() {
+        val result = runAnalysisWithFilter(FilterDependencyRegex.SPRING, "unsupported-test-project")
+        val expected = RepoAnalysisResult(
+            repoName = "unsupported-test-project",
+            analysisInfo = listOf("Not a Supported Project!")
+        )
+        assertEquals(expected, result)
+    }
+
+    private fun runAnalysisWithFilter(filterRegex: FilterDependencyRegex, projectName: String): RepoAnalysisResult {
+        val projectDir = TestUtils.getTestResourcePath(projectName)
+        val analysisStrategy = FilterDependencyStrategy(filterRegex.regex)
+        return analysisStrategy.analyseRepo(projectDir)
     }
 }
