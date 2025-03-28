@@ -11,6 +11,7 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://repo.gradle.org/gradle/libs-releases") }
 }
 
 dependencies {
@@ -24,6 +25,9 @@ dependencies {
 
     // Maven
     implementation(libs.mavenInvoker)
+
+    // Gradle
+    implementation(libs.gradleTooling)
 
     // Kotlin Coroutines
     implementation(libs.coroutines)

@@ -3,9 +3,10 @@ httpclient = "4.5.13"
 okhttp = "4.12.0"
 json = "20250107"
 jgit = "7.2.0.202503040940-r"
-mavenInvoker = "3.8.1"
+mavenInvoker = "3.9.0"
+gradleTooling = "8.11.1"
 coroutines = "1.10.1"
-logback = "1.2.11"
+logback = "1.4.12"
 commonsIo = "2.18.0"
 junit = "5.9.3"
 mockitoCore = "5.5.0"
@@ -20,6 +21,7 @@ okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 json = { module = "org.json:json", version.ref = "json" }
 jgit = { module = "org.eclipse.jgit:org.eclipse.jgit", version.ref = "jgit" }
 mavenInvoker = { module = "org.apache.maven.plugins:maven-invoker-plugin", version.ref = "mavenInvoker" }
+gradleTooling = {module = "org.gradle:gradle-tooling-api", version.ref = "gradleTooling"}
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 commonsIo = { module = "commons-io:commons-io", version.ref = "commonsIo" }
